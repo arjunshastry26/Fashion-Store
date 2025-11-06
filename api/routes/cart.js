@@ -38,7 +38,7 @@ router.post("/",
 		return res.json(cartResponse.cartCreated)
 
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return res.status(500).json(cartResponse.unexpectedError)
 	}
 })
@@ -53,7 +53,7 @@ router.post("/clear", verifyToken, async (req, res) => {
 		return res.json(cartResponse.cartCleared)
 
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return res.status(500).json(cartResponse.unexpectedError)
 	}
 })
@@ -131,7 +131,7 @@ router.delete("/:id", verifyAuthorization, async (req, res) => {
 		res.json(cartResponse.cartDeleted)
 
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return res.status(500).json(cartResponse.unexpectedError)
 	}
 })

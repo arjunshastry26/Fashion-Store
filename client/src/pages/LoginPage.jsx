@@ -13,7 +13,7 @@ export default function LoginPage() {
 
 	const handleLogin = async userData => {
 		const resp = await api.loginUser(userData)
-		if (resp.status == "ok") {
+		if (resp.status === "ok") {
 			if (cart.products.length) {
 				await api.addProductsToCart(cart.products.map(p => ({
 					productID: p.id,

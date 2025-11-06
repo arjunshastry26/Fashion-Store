@@ -6,7 +6,7 @@ export default function useReducerWithLocalStorage(reducer, initialState, storag
       const persisted = window.localStorage.getItem(storageKey)
       return persisted ? JSON.parse(persisted) : initialState
     } catch (error) {
-      console.log(error)
+      console.error('Error loading from localStorage:', error)
       return initialState
     }
   })

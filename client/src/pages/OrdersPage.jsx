@@ -10,7 +10,6 @@ import Button from "@/components/Button"
 import api from '../api'
 
 export default function OrdersPage() {
-	// const [orders, setOrders] = useState([...dummyOrders])
 	const [orders, setOrders] = useState([])
 
 	useEffect(() => {

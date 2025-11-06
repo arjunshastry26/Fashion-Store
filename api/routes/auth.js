@@ -26,33 +26,38 @@ router.post("/register",
 	}
 })
 
-router.post("/login", 
-	celebrate({ body: authSchema.login }), 
+router.post("/login",
+	celebrate({ body: authSchema.login }),
 	async (req, res) => {
 	const { email, password } = req.body
 
-	const user = await User.findOne({ email })
-	if (!user) {
-		return res.status(401).json(authResponse.loginFailed)
-	}
+	try {
+		const user = await User.findOne({ email })
+		if (!user) {
+			return res.status(401).json(authResponse.loginFailed)
+		}
 
-	const isValidLogin = await bcrypt.compare(password, user.password)
-	if (isValidLogin) {
-		const jwtToken = jwt.sign(
-			{
-				uid: user._id,
-				isAdmin: user.isAdmin,
-			}, 
-			process.env.JWT_SECRET,
-			{expiresIn: "3d"},
-		)
+		const isValidLogin = await bcrypt.compare(password, user.password)
+		if (isValidLogin) {
+			const jwtToken = jwt.sign(
+				{
+					uid: user._id,
+					isAdmin: user.isAdmin,
+				},
+				process.env.JWT_SECRET,
+				{expiresIn: "3d"},
+			)
 
-		return res.json({ 
-			...authResponse.loginSuccess,
-			accessToken: jwtToken,
-		})
-	} else {
-		return res.status(401).json(authResponse.loginFailed)
+			return res.json({
+				...authResponse.loginSuccess,
+				accessToken: jwtToken,
+			})
+		} else {
+			return res.status(401).json(authResponse.loginFailed)
+		}
+	} catch (err) {
+		console.error(err)
+		return res.status(500).json(authResponse.unexpectedError)
 	}
 })
 

@@ -60,7 +60,10 @@ async function createUserCart(products) {
 }
 
 async function getUserCart() {
-  const userID = getUser()._id
+  const user = getUser()
+  if (!user) return { status: "error", message: "User not authenticated" }
+
+  const userID = user._id
   const resp = await fetch(API_URL+"/carts/"+userID, {
     headers: {
       "x-access-token": getAccessToken(),
@@ -68,21 +71,25 @@ async function getUserCart() {
   })
   const cart = await resp.json()
   if (cart.products) {
-    cart.products = cart.products.map(product => (
-      {
+    cart.products = cart.products.map(product => {
+      if (!product.productID) return null
+      return {
         id: product.productID._id,
         title: product.productID.title,
         price: product.productID.price,
         image: product.productID.image,
         quantity: product.quantity,
       }
-    ))
+    }).filter(p => p !== null)
   }
   return cart
 }
 
 async function addProductsToCart(products) {
-  const userID = getUser()._id
+  const user = getUser()
+  if (!user) return { status: "error", message: "User not authenticated" }
+
+  const userID = user._id
   const resp = await fetch(API_URL+"/carts/"+userID, {
     method: "PUT",
     headers: {
@@ -99,7 +106,10 @@ async function removeProductFromCart(productID) {
 }
 
 async function patchCart(productID, quantity) {
-  const userID = getUser()._id
+  const user = getUser()
+  if (!user) return { status: "error", message: "User not authenticated" }
+
+  const userID = user._id
   const resp = await fetch(API_URL+"/carts/"+userID, {
     method: "PATCH",
     headers: {
@@ -128,7 +138,7 @@ async function fetchUserDetails() {
     }
   })
   const {status, user} = await resp.json()
-  if (status == "ok") {
+  if (status === "ok") {
     if (!user.avatarSrc) {
       user.avatarSrc = `https://avatars.dicebear.com/api/initials/${user.fullname}.svg`
     }
@@ -175,7 +185,10 @@ async function createOrder(products, amount, address) {
 }
 
 async function fetchAllOrders() {
-  const userID = getUser()._id
+  const user = getUser()
+  if (!user) return { status: "error", message: "User not authenticated" }
+
+  const userID = user._id
   const resp = await fetch(API_URL+"/orders/user/"+userID, {
     headers: {
       "x-access-token": getAccessToken(),

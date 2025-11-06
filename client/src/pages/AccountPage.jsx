@@ -18,7 +18,7 @@ export default function AccountPage() {
 
 	const handleEdit = e => {
 		e.preventDefault()
-		console.log(user)
+		// TODO: Implement user update functionality
 	}
 
 	if (!user) {
@@ -43,7 +43,7 @@ export default function AccountPage() {
 	      		className="flex flex-col gap-2 min-w-xs max-w-lg m-4"
 	      		onSubmit={handleEdit}
 	      	>
-		      	<Input icon={<User />} type="text" value={user.fullName} placeholder="full name"/>
+		      	<Input icon={<User />} type="text" value={user.fullname} placeholder="full name"/>
 		      	<Input icon={<Mail />} type="email" value={user.email} disabled />
 		      	<Input icon={<Lock />} type="password" placeholder="Current Password" />
 		      	<Input icon={<Lock />} type="password" placeholder="New Password" />

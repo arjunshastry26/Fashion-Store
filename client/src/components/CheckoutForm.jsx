@@ -24,7 +24,6 @@ export default function CheckoutForm({onCancel,onSuccess}) {
     // Create PaymentIntent as soon as the page loads
     (async () => {
       const resp = await api.proceedCheckout()
-      console.log(resp)
       if (resp.status !== "error") {
         setClientSecret(resp.clientSecret)
         setOrderDetails(resp.finalOrder)

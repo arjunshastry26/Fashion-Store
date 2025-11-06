@@ -27,8 +27,7 @@ export default function App() {
   useEffect(() => {
     (async () => {
       const resp = await api.fetchUserDetails()
-      console.log(resp)
-      if (resp.status == "ok") {
+      if (resp.status === "ok") {
         setUser(resp.user)
       }
     })()
@@ -38,7 +37,6 @@ export default function App() {
     if (!user) return
     (async () => {
       const resp = await api.getUserCart()
-      console.log(resp)
       if (resp.products) {
         cartDispatch({type: "SET_PRODUCTS", payload: resp.products})
       }

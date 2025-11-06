@@ -17,8 +17,8 @@ export default function ProductDetailsPage() {
 	useEffect(() => {
 		(async () => {
 			const resp = await api.fetchProduct(id)
-			if (resp.status == "error") {
-				return history.replace("/404")
+			if (resp.status === "error") {
+				return navigate("/404")
 			}
 			setProduct(resp)
 		})()

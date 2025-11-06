@@ -18,7 +18,7 @@ export default function LoginForm({ onSubmit }) {
 		setLoading(true)
 		const resp = await onSubmit({email, password})
 		setLoading(false)
-		if (resp.status == "error") {
+		if (resp.status === "error") {
 			setError(resp.message)
 		}
 	}

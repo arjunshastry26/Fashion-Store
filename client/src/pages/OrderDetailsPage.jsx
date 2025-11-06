@@ -16,11 +16,17 @@ export default function OrderDetailsPage() {
 
 	useEffect(() => {
 		(async () => {
-			const resp = await api.fetchOrderDetails(id)
-			if (resp.status !== "ok") {
+			try {
+				const resp = await api.fetchOrderDetails(id)
+				if (resp.status !== "ok") {
+					navigate("/404")
+					return
+				}
+				setOrder(resp.order)
+			} catch (error) {
+				console.error('Error fetching order details:', error)
 				navigate("/404")
 			}
-			setOrder(resp.order)
 		})()
 	}, [id])
 
@@ -71,7 +77,7 @@ export default function OrderDetailsPage() {
 			</Container>
 
 			<Button 
-				onClick={history.goBack}
+				onClick={() => navigate(-1)}
 				className="absolute -top-12 -left-4 text-lg" 
 				secondary
 			><ChevronLeft className="mr-2" /> Back

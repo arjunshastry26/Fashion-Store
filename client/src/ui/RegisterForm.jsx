@@ -29,7 +29,7 @@ export default function RegisterForm({ onSubmit }) {
 		setLoading(true)
 		const resp = await onSubmit({fullname, email, password, confirmPassword})
 		setLoading(false)
-		if (resp.status == "error") {
+		if (resp.status === "error") {
 			setError(resp.message)
 		}
 	}

@@ -13,12 +13,12 @@ export default function RegisterPage() {
 	
 	const handleRegister = async userData => {
 		const resp = await api.registerUser(userData)
-		if (resp.status == "ok") {
+		if (resp.status === "ok") {
 			const loginResp = await api.loginUser(userData)
-			if (loginResp.status == "ok") {
+			if (loginResp.status === "ok") {
 				setUser(api.getUser())
 				await api.createUserCart(cart.products.map(p => ({
-					productID: p.id, 
+					productID: p.id,
 					quantity: p.quantity
 				})))
 

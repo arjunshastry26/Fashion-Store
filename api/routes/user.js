@@ -57,27 +57,35 @@ router.put("/:id",
 	async (req, res) => {
 	let { currentPassword, newPassword, fullname } = req.body
 
-	// reset password
-	let password
-	if (newPassword) { 
-		const user = await User.findById(req.params.id)
-		const isValid = await bcrypt.compare(currentPassword, user.password)
-
-		if (isValid) {
-			password = await bcrypt.hash(newPassword, 10)
-		} else {
-			return res.status(401).json(userResponse.userUpdateFailed)
-		}
-	}
-
 	try {
+		// reset password
+		let password
+		if (newPassword) {
+			const user = await User.findById(req.params.id)
+
+			if (!user) {
+				return res.status(404).json({
+					status: "error",
+					message: "user not found"
+				})
+			}
+
+			const isValid = await bcrypt.compare(currentPassword, user.password)
+
+			if (isValid) {
+				password = await bcrypt.hash(newPassword, 10)
+			} else {
+				return res.status(401).json(userResponse.userUpdateFailed)
+			}
+		}
+
 		await User.findByIdAndUpdate(
 			req.params.id,
 			{$set: { fullname, password } },
 			{new: true},
 		)
 		return res.json(userResponse.userUpdated)
-		
+
 	} catch (err) {
 		console.error(err)
 		return res.status(500).json(userResponse.unexpectedError)
@@ -91,7 +99,7 @@ router.delete("/:id", verifyAuthorization, async (req, res) => {
 		res.json(userResponse.userDeleted)
 
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return res.status(500).json(userResponse.unexpectedError)
 	}
 })

@@ -47,8 +47,8 @@ router.post("/",
 		return res.json(productResponse.productAdded)
 
 	} catch (err) {
-		console.log(err)
-		return res.status(500).json(productResponse.unexpectedErrorS)
+		console.error(err)
+		return res.status(500).json(productResponse.unexpectedError)
 	}
 })
 
@@ -78,7 +78,7 @@ router.delete("/:id", verifyAdminAccess, async (req, res) => {
 		res.json(productResponse.productDeleted)
 
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return res.status(500).json(productResponse.unexpectedError)
 	}
 })

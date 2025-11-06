@@ -54,7 +54,7 @@ router.post("/",
 		})
 
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return res.status(500).json(orderResponse.unexpectedError)
 	}
 })
@@ -144,7 +144,7 @@ router.delete("/:id", verifyAdminAccess, async (req, res) => {
 		res.json(orderResponse.orderDeleted)
 
 	} catch (err) {
-		console.log(err)
+		console.error(err)
 		return res.status(500).json(orderResponse.unexpectedError)
 	}
 })
