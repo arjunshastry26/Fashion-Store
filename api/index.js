@@ -19,6 +19,7 @@ const app = express()
 
 
 // mongodb
+mongoose.set('strictQuery', false)
 mongoose.connect(process.env.DB_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true
